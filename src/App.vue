@@ -6,27 +6,35 @@
         :icon="item.icon" />
     </t-side-bar>
 
-    <div ref="wrapper" class="content" @scroll="onScroll">
+    <div class="content">
       <div v-for="(item, index) in categories" :key="index" class="section">
         <div class="title">{{ item.title || item.label }}</div>
         <div class="card-group">
           <!-- 每一个菜单项 -->
           <div class="card-item" v-for="(cargo, cargoIndex) in item.items" :key="cargoIndex">
             <!-- 上面的图片 -->
-            <t-image :src="cargo.image" shape="round" fit="cover" style="height: 60px;" />
+            <t-badge :count="cargo.pinfen" :offset="[15, 15]" size="large">
+              <t-image :src="cargo.image" shape="round" fit="cover" @click="openImage(cargo.image)" />
+            </t-badge>
             <!-- 名字和评分 -->
-            <div style="display: flex;justify-content: space-between;">
-              <div>{{ cargo.name }}</div>
-              <div>{{ cargo.pinfen }}</div>
+            <div class="card-item-title">
+              <div class="title-name">{{ cargo.name }}</div>
             </div>
             <!-- 描述内容 -->
-            <div style="text-align: left;">
+            <div class="card-item-desc" @click="playVideo(cargo.video)">
               {{ cargo.desc }}
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 大图 -->
+    <t-image-viewer v-model:images="currentImg" v-model:visible="visible" />
+
+    <!-- 播放视频 -->
+    <t-popup v-model="videoVisible" placement="center" @close="closeVideo">
+      <video width="100%" :src="currentVideo" autoplay controls></video>
+    </t-popup>
 
   </div>
 </template>
@@ -40,89 +48,152 @@ export default {
   data() {
     return {
       sideBarIndex: 0,
+      currentImg: [],//放大图片
+      visible: false,//放大图片查看按钮
+      currentVideo: null,//视频地址
+      videoVisible: false,//看视频
+      wrapper: [],
+      offsetTopList: [],//滚动条偏移数组
       categories: [
         {
           label: '新手上菜',
           title: '刚学的，失败率略高',
           items: [
-            { name: '标题文字', pinfen: '9.3', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png', desc: '做法做法点评点评,做法做法点评点评,做法做法点评点评,做法做法点评点评,' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
+            {
+              name: '炸萝卜丸子', pinfen: '8.5',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E7%89%B9%E8%89%B2%E5%B0%8F%E5%90%83/%E7%82%B8%E8%90%9D%E5%8D%9C%E4%B8%B8%E5%AD%90.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E7%89%B9%E8%89%B2%E5%B0%8F%E5%90%83/%E7%82%B8%E8%90%9D%E5%8D%9C%E4%B8%B8%E5%AD%90.mp4',
+              desc: '还没做过，不知道好不好吃'
+            },
           ]
         },
         {
           label: '下饭大菜',
           title: '一个菜配三碗饭',
           items: [
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
+            {
+              name: '酸汤肥牛', pinfen: '9.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
+              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
+            },
           ]
         },
         {
           label: '时令海鲜',
           title: '螃蟹和虾，其他不会做',
           items: [
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
           ]
         },
         {
           label: '家常小炒',
           title: '炒蛋炒蛋加炒蛋',
           items: [
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
           ]
         },
         {
           label: '鲜香汤羹',
           title: '不保证质量，慎点',
           items: [
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { name: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
           ]
         },
         {
           label: '特色小吃',
           title: '空气炸锅，厨房好工具',
           items: [
-            { label: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { label: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { label: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { label: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
-            { label: '标题文字', image: 'https://tdesign.gtimg.com/mobile/demos/example2.png' },
           ]
         },
       ]
     }
   },
-  mounted() {
+  created() {
+    this.getOffsetTopList();
+    this.moveToActiveSideBar(Number(this.sideBarIndex));
   },
   methods: {
+    openImage(image) {
+      this.currentImg = [image]
+      this.visible = true
+    },
+    playVideo(video) {
+      this.currentVideo = video
+      this.videoVisible = true
+    },
+    closeVideo() { //关闭视频
+      this.currentVideo = ''
+    },
+
+    getOffsetTopList() {
+      if (this.wrapper.value) {
+        const $title = this.wrapper.value.querySelectorAll < HTMLElement > (`.title`);
+        $title.forEach((item) => this.offsetTopList.push(item.offsetTop));
+      }
+    },
+
     //点击侧边栏
     onSideBarClick(index) {
       this.sideBarIndex = index
     },
     //侧边栏索引变化
-    onSideBarChange(obj) {
-      console.log(obj)
+    onSideBarChange(index) {
+      this.moveToActiveSideBar(Number(index));
     },
-    moveToActiveSideBar() {
+    moveToActiveSideBar(index) {
+      if (this.wrapper.value) {
+        this.wrapper.value.scrollTop = this.offsetTopList[index] - this.offsetTopList[0];
+      }
+    },
+    onScroll(e) {
+      const threshold = this.offsetTopList[0]; // 下一个标题与顶部的距离
+      const { scrollTop } = e.target;
+      if (scrollTop < threshold) {
+        this.sideBarIndex = 0;
+        return;
+      }
+      const index = this.offsetTopList.findIndex((top) => top > scrollTop && top - scrollTop <= threshold);
+
+      if (index > -1) {
+        this.sideBarIndex = index;
+      }
     }
+
+
   }
 
 }
@@ -166,6 +237,24 @@ export default {
     width: calc(50% - 5px);
     text-align: center;
     margin-bottom: 10px;
+    border: 1px solid #cacaca;
+    border-radius: 8px;
+
+    .card-item-title {
+      padding: 3px;
+
+      .title-name {
+        font-weight: bold;
+        text-align: right;
+      }
+    }
+
+    .card-item-desc {
+      text-align: left;
+      font-size: 12px;
+      color: #636262;
+      padding: 0 3px 5px 3px;
+    }
   }
 }
 </style>
