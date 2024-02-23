@@ -88,12 +88,24 @@ export default {
           label: '家常小炒',
           title: '炒蛋炒蛋加炒蛋',
           items: [
+            {
+              name: '金针菇炒蛋', pinfen: '7.5',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E5%AE%B6%E5%B8%B8%E5%B0%8F%E7%82%92/%E9%87%91%E9%92%88%E8%8F%87%E7%82%92%E8%9B%8B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E5%AE%B6%E5%B8%B8%E5%B0%8F%E7%82%92/%E9%87%91%E9%92%88%E8%8F%87%E7%82%92%E8%9B%8B.mp4',
+              desc: 'see you tomorrow、tomorrow！'
+            },
           ]
         },
         {
           label: '鲜香汤羹',
           title: '不保证质量，慎点',
           items: [
+            {
+              name: '鲫鱼豆腐汤', pinfen: '8.1',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E9%B2%9C%E9%A6%99%E6%B1%A4%E7%BE%B9/%E9%B2%AB%E9%B1%BC%E8%B1%86%E8%85%90%E6%B1%A4.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E9%B2%9C%E9%A6%99%E6%B1%A4%E7%BE%B9/%E9%B2%AB%E9%B1%BC%E8%B1%86%E8%85%90%E6%B1%A4.mp4',
+              desc: '一条鲫鱼太淡了，至少两条；豆腐、粉丝、娃娃菜，准备个漏勺'
+            },
           ]
         },
         {
