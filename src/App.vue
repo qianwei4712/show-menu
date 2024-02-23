@@ -6,7 +6,7 @@
         :icon="item.icon" />
     </t-side-bar>
 
-    <div class="content">
+    <div ref="wrapper" class="content" @scroll="onScroll">
       <div v-for="(item, index) in categories" :key="index" class="section">
         <div class="title">{{ item.title || item.label }}</div>
         <div class="card-group">
@@ -52,7 +52,6 @@ export default {
       visible: false,//放大图片查看按钮
       currentVideo: null,//视频地址
       videoVisible: false,//看视频
-      wrapper: [],
       offsetTopList: [],//滚动条偏移数组
       categories: [
         {
@@ -71,42 +70,6 @@ export default {
           label: '下饭大菜',
           title: '一个菜配三碗饭',
           items: [
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
-            {
-              name: '酸汤肥牛', pinfen: '9.3',
-              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
-              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
-              desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
-            },
             {
               name: '酸汤肥牛', pinfen: '9.3',
               image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.png',
@@ -142,7 +105,7 @@ export default {
       ]
     }
   },
-  created() {
+  mounted() {
     this.getOffsetTopList();
     this.moveToActiveSideBar(Number(this.sideBarIndex));
   },
@@ -160,9 +123,9 @@ export default {
     },
 
     getOffsetTopList() {
-      if (this.wrapper.value) {
-        const $title = this.wrapper.value.querySelectorAll < HTMLElement > (`.title`);
-        $title.forEach((item) => this.offsetTopList.push(item.offsetTop));
+      if (this.$refs.wrapper) {
+        const title = this.$refs.wrapper.querySelectorAll(`.title`);
+        title.forEach((item) => this.offsetTopList.push(item.offsetTop));
       }
     },
 
@@ -175,8 +138,8 @@ export default {
       this.moveToActiveSideBar(Number(index));
     },
     moveToActiveSideBar(index) {
-      if (this.wrapper.value) {
-        this.wrapper.value.scrollTop = this.offsetTopList[index] - this.offsetTopList[0];
+      if (this.$refs.wrapper) {
+        this.$refs.wrapper.scrollTop = this.offsetTopList[index] - this.offsetTopList[0];
       }
     },
     onScroll(e) {
@@ -187,7 +150,6 @@ export default {
         return;
       }
       const index = this.offsetTopList.findIndex((top) => top > scrollTop && top - scrollTop <= threshold);
-
       if (index > -1) {
         this.sideBarIndex = index;
       }
