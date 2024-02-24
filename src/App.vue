@@ -14,7 +14,7 @@
           <div class="card-item" v-for="(cargo, cargoIndex) in item.items" :key="cargoIndex">
             <!-- 上面的图片 -->
             <t-badge :count="cargo.pinfen" :offset="[15, 15]" size="large">
-              <t-image :src="cargo.image" shape="round" fit="cover" @click="openImage(cargo.image)" />
+              <t-image :src="cargo.image" shape="round" fit="fill" @click="openImage(cargo.image)" class="cargo-image" />
             </t-badge>
             <!-- 名字和评分 -->
             <div class="card-item-title">
@@ -229,6 +229,10 @@ export default {
     border: 1px solid #cacaca;
     border-radius: 8px;
 
+    .cargo-image {
+      max-height: 130px;
+    }
+
     .card-item-title {
       padding: 3px;
 
@@ -256,5 +260,9 @@ body {
 
 .t-side-bar {
   width: 96px;
+}
+
+.argo-image img {
+  max-height: 150px !important;
 }
 </style>
