@@ -82,12 +82,24 @@ export default {
           label: '时令海鲜',
           title: '螃蟹和虾，其他不会做',
           items: [
+            {
+              name: '爆炒大虾', pinfen: '8.5',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E6%97%B6%E4%BB%A4%E6%B5%B7%E9%B2%9C/%E7%88%86%E7%82%92%E5%A4%A7%E8%99%BE.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E6%97%B6%E4%BB%A4%E6%B5%B7%E9%B2%9C/%E7%88%86%E7%82%92%E5%A4%A7%E8%99%BE.mp4',
+              desc: '要去虾线做起来可能有点慢，要提早点菜哦'
+            },
           ]
         },
         {
           label: '家常小炒',
           title: '炒蛋炒蛋加炒蛋',
           items: [
+            {
+              name: '番茄炒蛋', pinfen: '8.2',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E5%AE%B6%E5%B8%B8%E5%B0%8F%E7%82%92/%E7%95%AA%E8%8C%84%E7%82%92%E8%9B%8B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E5%AE%B6%E5%B8%B8%E5%B0%8F%E7%82%92/%E7%95%AA%E8%8C%84%E7%82%92%E8%9B%8B.mp4',
+              desc: '老胡最爱，一周吃五顿，顿顿都有它。'
+            },
             {
               name: '金针菇炒蛋', pinfen: '7.5',
               image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E5%AE%B6%E5%B8%B8%E5%B0%8F%E7%82%92/%E9%87%91%E9%92%88%E8%8F%87%E7%82%92%E8%9B%8B.png',
@@ -98,10 +110,10 @@ export default {
         },
         {
           label: '鲜香汤羹',
-          title: '不保证质量，慎点',
+          title: '做得少，不保证质量，慎点',
           items: [
             {
-              name: '鲫鱼豆腐汤', pinfen: '8.1',
+              name: '鲫鱼豆腐汤', pinfen: '7.4',
               image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E9%B2%9C%E9%A6%99%E6%B1%A4%E7%BE%B9/%E9%B2%AB%E9%B1%BC%E8%B1%86%E8%85%90%E6%B1%A4.png',
               video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E9%B2%9C%E9%A6%99%E6%B1%A4%E7%BE%B9/%E9%B2%AB%E9%B1%BC%E8%B1%86%E8%85%90%E6%B1%A4.mp4',
               desc: '一条鲫鱼太淡了，至少两条；豆腐、粉丝、娃娃菜，准备个漏勺'
@@ -127,6 +139,9 @@ export default {
       this.visible = true
     },
     playVideo(video) {
+      if (!video) {
+        return false
+      }
       this.currentVideo = video
       this.videoVisible = true
     },
