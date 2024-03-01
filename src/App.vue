@@ -76,6 +76,12 @@ export default {
               video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E9%85%B8%E6%B1%A4%E8%82%A5%E7%89%9B.mp4',
               desc: '一袋料包、肥牛卷、金针菇、莴苣、豆皮，其他随意加'
             },
+            {
+              name: '番茄肥牛', pinfen: '8.5',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E7%95%AA%E8%8C%84%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E4%B8%8B%E9%A5%AD%E5%A4%A7%E8%8F%9C/%E7%95%AA%E8%8C%84%E8%82%A5%E7%89%9B.mp4',
+              desc: '主味道是酸酸的，土豆和肥牛不太入味，喝汤还是可以'
+            },
           ]
         },
         {
