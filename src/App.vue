@@ -14,7 +14,8 @@
           <div class="card-item" v-for="(cargo, cargoIndex) in item.items" :key="cargoIndex">
             <!-- 上面的图片 -->
             <t-badge :count="cargo.pinfen" :offset="[15, 15]" size="large">
-              <t-image :src="cargo.image" shape="round" fit="fill" @click="openImage(cargo.image)" class="cargo-image" />
+              <t-image :src="cargo.image" shape="round" fit="fill" @click="openImage(cargo.image)"
+                class="cargo-image" />
             </t-badge>
             <!-- 名字和评分 -->
             <div class="card-item-title">
@@ -33,7 +34,7 @@
 
     <!-- 播放视频 -->
     <t-popup v-model="videoVisible" placement="center" @close="closeVideo">
-      <video width="100%" :src="currentVideo" autoplay controls></video>
+      <video width="100%" :src="currentVideo" autoplay loop controls></video>
     </t-popup>
 
   </div>
