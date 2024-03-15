@@ -129,8 +129,14 @@ export default {
         },
         {
           label: '特色小吃',
-          title: '空气炸锅，厨房好工具',
+          title: '空气炸锅、油炸烧烤料',
           items: [
+            {
+              name: '孜然肥牛', pinfen: '9.1',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E7%89%B9%E8%89%B2%E5%B0%8F%E5%90%83/%E5%AD%9C%E7%84%B6%E8%82%A5%E7%89%9B.png',
+              video: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E7%89%B9%E8%89%B2%E5%B0%8F%E5%90%83/%E5%AD%9C%E7%84%B6%E8%82%A5%E7%89%9B.mp4',
+              desc: '炒香菜更好吃，炒久了会有点硬。'
+            },
           ]
         },
       ]
