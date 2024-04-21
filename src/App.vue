@@ -139,6 +139,18 @@ export default {
             },
           ]
         },
+        {
+          label: '甜品饮品',
+          title: '啤酒、红酒、五粮液',
+          items: [
+            {
+              name: '五黑豆浆', pinfen: '8.3',
+              image: 'https://shiva.oss-cn-hangzhou.aliyuncs.com/show-menus/%E7%94%9C%E5%93%81%E9%A5%AE%E5%93%81/%E4%BA%94%E9%BB%91%E8%B1%86%E6%B5%86.png',
+              video: '',
+              desc: '补肾防脱发，黑米黑豆黑枸杞，芝麻桑葚加冰糖'
+            },
+          ]
+        },
       ]
     }
   },
